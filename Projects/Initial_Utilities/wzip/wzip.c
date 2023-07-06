@@ -15,19 +15,39 @@ int main(int argc, char* argv[]) {
     FILE* fileStreamOut = stdout;
     //char* currentChar;
     //char* nextChar;
+    int prevChar;
     int currentChar;
-    //int charCount;
+    int charCount = 1;
 
     for (int i = 1; i < argc; i++) {
+
         fileStreamIn = fopen(argv[i], "r");
+
         if (fileStreamIn != NULL) {
+
+            prevChar = fgetc(fileStreamIn); // Get first char in file
+
             while ((currentChar = fgetc(fileStreamIn)) != EOF) {
-                //currentChar = fgetc(fileStreamIn);
-                fwrite(&currentChar, sizeof(int), CHARS_TO_WRITE, fileStreamOut);
+
+                if (currentChar != prevChar) {
+                    if (charCount > 1) {
+                        fwrite(&charCount, sizeof(int), CHARS_TO_WRITE, fileStreamOut);
+                        charCount = 0;
+                    }
+                    fwrite(&prevChar, sizeof(int), CHARS_TO_WRITE, fileStreamOut);
+                    prevChar = currentChar;
+                }
+                else {
+                    charCount++;
+                }
+
             }
+            if (charCount > 1) fwrite(&charCount, sizeof(int), CHARS_TO_WRITE, fileStreamOut);
+            fwrite(&prevChar, sizeof(int), CHARS_TO_WRITE, fileStreamOut);
             fclose(fileStreamIn);
         }
     }
+    
     return 0;
 }
 
