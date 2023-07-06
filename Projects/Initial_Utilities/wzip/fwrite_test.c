@@ -15,11 +15,13 @@ int main(int argc, char* argv[]) {
     FILE* fileStreamOut = stdout;
     //char* currentChar;
     //char* nextChar;
-    int prevChar;
-    int currentChar;
-    int charCount = 91;
+    char prevChar;
+    char currentChar;
+    int charCount = 38;
 
+    prevChar = 'a';
     fwrite(&charCount, sizeof(int), CHARS_TO_WRITE, fileStreamOut);
+    fwrite(&prevChar, sizeof(char), CHARS_TO_WRITE, fileStreamOut);
     printf("\n");
     return 0;
 }

@@ -13,11 +13,9 @@ int main(int argc, char* argv[]) {
 
     FILE* fileStreamIn;
     FILE* fileStreamOut = stdout;
-    //char* currentChar;
-    //char* nextChar;
-    int prevChar;
-    int currentChar;
-    int charCount = 1;
+    char prevChar;
+    char currentChar;
+    int charCount;
 
     for (int i = 1; i < argc; i++) {
 
@@ -26,15 +24,16 @@ int main(int argc, char* argv[]) {
         if (fileStreamIn != NULL) {
 
             prevChar = fgetc(fileStreamIn); // Get first char in file
+            charCount = 1;
 
             while ((currentChar = fgetc(fileStreamIn)) != EOF) {
 
                 if (currentChar != prevChar) {
                     if (charCount > 1) {
                         fwrite(&charCount, sizeof(int), CHARS_TO_WRITE, fileStreamOut);
-                        charCount = 0;
+                        charCount = 1;
                     }
-                    fwrite(&prevChar, sizeof(int), CHARS_TO_WRITE, fileStreamOut);
+                    fwrite(&prevChar, sizeof(char), CHARS_TO_WRITE, fileStreamOut);
                     prevChar = currentChar;
                 }
                 else {
@@ -43,7 +42,7 @@ int main(int argc, char* argv[]) {
 
             }
             if (charCount > 1) fwrite(&charCount, sizeof(int), CHARS_TO_WRITE, fileStreamOut);
-            fwrite(&prevChar, sizeof(int), CHARS_TO_WRITE, fileStreamOut);
+            fwrite(&prevChar, sizeof(char), CHARS_TO_WRITE, fileStreamOut);
             fclose(fileStreamIn);
         }
     }
