@@ -36,7 +36,13 @@ char *fgets(char *s, int size, FILE *stream);
 
 while (fgets(buffer, BUFFER_SIZE, filePtr)) {
 	printf("%s", buffer);
-}
+}  
+
+## fgetc()  
+
+int fgetc(FILE *stream);  
+
+* Reads the next character from _stream_ and returns it as an unsigned char cast to an int, or EOF on end of file or error.
 
 ## getline()
 
